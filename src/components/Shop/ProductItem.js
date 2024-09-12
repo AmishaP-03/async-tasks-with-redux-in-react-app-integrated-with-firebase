@@ -1,11 +1,12 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { cartActions } from '../../store/cart-slice';
+import { cartActions, sendCartData } from '../../store/cart-slice';
 import Card from '../UI/Card';
 import classes from './ProductItem.module.css';
 
 const ProductItem = (props) => {
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
 
   const { title, price, description, id } = props;
 
@@ -17,6 +18,9 @@ const ProductItem = (props) => {
         price,
       })
     );
+
+    // Set updated cart in DB
+    dispatch(sendCartData(cart)); // action creator
   };
 
   return (

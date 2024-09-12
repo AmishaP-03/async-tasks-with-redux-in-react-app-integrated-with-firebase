@@ -7,9 +7,13 @@ const cartSlice = createSlice({
     totalQuantity: 0,
   },
   reducers: {
+    replaceCart(state, action) {
+        state.totalQuantity = action.payload.totalQuantity;
+        state.items = action.payload.items;
+    },
     addItemToCart(state, action) {
       const newItem = action.payload;
-      const existingItem = state.items.find((item) => item.id === newItem.id);
+      const existingItem = state?.items.find((item) => item.id === newItem.id);
       state.totalQuantity++;
       if (!existingItem) {
         state.items.push({
@@ -37,7 +41,7 @@ const cartSlice = createSlice({
   },
 });
 
-// Action creators to handle async tasks, returns another func which will then be executed by redux
+// Action creators as thunk to handle async tasks, returns another func which will then be executed by redux
 export const sendCartData = (cart) => {
     return async (_dispatch) => {
         // We could dispatch an action here to set pending notification data in ui slice
@@ -54,13 +58,30 @@ export const sendCartData = (cart) => {
                 // We could instead dispatch action to set the error notification data in ui slice. This would call the reducer in the flow of an async task,
                 // without making us writre async logic inside a reducer
             } else {
-                alert("Items successfully added to cart!");
+                alert("Cart successfully updated!");
             }
         } catch (error) {
             alert(error.message);
             // We could instead dispatch action to set the error notification data in ui slice
         }
     };
+}
+
+export const fetchCartData = () => {
+    return async (dispatch) => {
+        try {
+            const response = await fetch("https://redux-in-react-ca2f4-default-rtdb.firebaseio.com/cart.json");
+
+            if (!response.ok) {
+                alert("Fetching cart data failed!");
+            } else {
+                const responseData = await response.json();
+                dispatch(cartActions.replaceCart(responseData));
+            }
+        } catch (error) {
+            alert("Fetching cart data failed!");
+        }
+    }
 }
 
 export const cartActions = cartSlice.actions;
