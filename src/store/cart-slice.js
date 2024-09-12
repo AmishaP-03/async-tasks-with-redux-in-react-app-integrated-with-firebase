@@ -44,7 +44,7 @@ export const sendCartData = (cart) => {
     
         // Async task
         try {
-            const response = await fetch('https://redux-in-react-ca2f4-default-rtdb.firebaseio.com', {
+            const response = await fetch('https://redux-in-react-ca2f4-default-rtdb.firebaseio.com/cart.json', {
                 method: "PUT",
                 body: JSON.stringify(cart)
             });
