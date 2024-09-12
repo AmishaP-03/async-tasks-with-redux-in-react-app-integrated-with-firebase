@@ -6,3 +6,8 @@ Firebase server URL - https://console.firebase.google.com/project/redux-in-react
 
 
 -npm start
+
+![image](https://github.com/user-attachments/assets/8f0805b7-a701-47f2-b143-d109d4f788da)
+
+![image](https://github.com/user-attachments/assets/dcd12e24-7a89-423e-97e4-89197ad1fe6d)
+
