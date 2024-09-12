@@ -1,11 +1,26 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Cart from './components/Cart/Cart';
 import Layout from './components/Layout/Layout';
 import Products from './components/Shop/Products';
+import { useEffect } from 'react';
+import { sendCartData } from './store/cart-slice.js';
+
+var isInitial = true;
 
 function App() {
+  const dispatch = useDispatch();
   const showCart = useSelector((state) => state.ui.cartIsVisible);
+  const cart = useSelector((state) => state.cart);
+
+  // Runs whenever value of cart in store changes except for when the component is loaded for the first time 
+  useEffect(() => {
+    if (isInitial) {
+      isInitial = !isInitial;
+      return;
+    }
+    dispatch(sendCartData(cart)); // action creator
+  }, [cart, dispatch]);
 
   return (
     <Layout>
