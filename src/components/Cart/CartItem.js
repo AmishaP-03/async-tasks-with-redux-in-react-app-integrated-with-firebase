@@ -1,19 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import classes from './CartItem.module.css';
-import { cartActions, sendCartData } from '../../store/cart-slice';
+import { cartActions } from '../../store/cart-slice';
 
 const CartItem = (props) => {
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
 
   const { title, quantity, total, price, id } = props.item;
 
   const removeItemHandler = () => {
     dispatch(cartActions.removeItemFromCart(id));
-
-    // Set updated cart in DB
-    dispatch(sendCartData(cart)); // action creator
   };
 
   const addItemHandler = () => {
@@ -24,9 +20,6 @@ const CartItem = (props) => {
         price,
       })
     );
-
-    // Set updated cart in DB
-    dispatch(sendCartData(cart)); // action creator
   };
 
   return (
